@@ -27,8 +27,6 @@ function App() {
     const [submitError, setSubmitError] = useState<string | null>(null);
     const [submitSuccess, setSubmitSuccess] = useState(false);
 
-    console.log({ holidayInfo });
-
     const year = formData.date.getFullYear();
 
     const { data: holidaysData = [], error: holidaysError } = useQuery<
@@ -87,7 +85,6 @@ function App() {
                 setHolidayInfo(null);
                 setErrors({});
             } catch (error) {
-                console.error("Error submitting form:", error);
                 setSubmitError(
                     error instanceof Error
                         ? error.message
@@ -209,7 +206,7 @@ function App() {
                                         value={formData.date}
                                         onChange={(date) => {
                                             handleInputChange("date", date);
-                                            // setHolidayInfo(null);
+                                            setHolidayInfo(null);
                                         }}
                                         error={
                                             errors.date ||
@@ -234,7 +231,7 @@ function App() {
                                     )}
                                 </div>
 
-                                <div className="md:w-2.5/4/12">
+                                <div className="md:w-2.5/4/6">
                                     {!holidayInfo && (
                                         <TimeSlots
                                             value={formData.time}
@@ -256,7 +253,8 @@ function App() {
                             disabled={
                                 isSubmitting ||
                                 isFormEmptyCheck() ||
-                                Object.keys(errors).length > 0
+                                Object.keys(errors).length > 0 ||
+                                !!holidayInfo
                             }
                             className="w-full bg-purple-600 text-white py-3 px-4 rounded-lg font-medium
                 hover:bg-purple-700 focus:outline-none focus:ring-2 focus:ring-purple-600 focus:ring-offset-2
