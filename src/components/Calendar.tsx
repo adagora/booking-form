@@ -16,6 +16,7 @@ export const Calendar: React.FC<CalendarProps> = ({
     error,
     holidays,
     onHolidayInfo,
+    isDayDisabled,
 }) => {
     const [currentYear, setCurrentYear] = useState(value.getFullYear());
     const [currentMonth, setCurrentMonth] = useState(value.getMonth());
@@ -24,7 +25,9 @@ export const Calendar: React.FC<CalendarProps> = ({
         const monthStart = new Date(currentYear, currentMonth, 1);
         const monthEnd = new Date(currentYear, currentMonth + 1, 0);
         const startDate = new Date(monthStart);
-        startDate.setDate(1 - startDate.getDay());
+        startDate.setDate(
+            1 - (startDate.getDay() === 0 ? 6 : startDate.getDay() - 1)
+        );
 
         const weeksArray: Date[][] = [];
         let currentDate = new Date(startDate);
@@ -64,7 +67,7 @@ export const Calendar: React.FC<CalendarProps> = ({
         const formattedDate = formatDate(date);
         const holiday = holidays?.find((h) => h.date === formattedDate);
         return (
-            date.getDay() === 0 || // Sunday
+            date.getDay() === 0 ||
             (holiday && holiday.type === "NATIONAL_HOLIDAY")
         );
     };

@@ -23,6 +23,7 @@ function App() {
 
     const [errors, setErrors] = useState<FormErrors>({});
     const [holidayInfo, setHolidayInfo] = useState<Holiday | null>(null);
+    console.log('holidayInfo";;', holidayInfo);
     const [isSubmitting, setIsSubmitting] = useState(false);
     const [submitError, setSubmitError] = useState<string | null>(null);
     const [submitSuccess, setSubmitSuccess] = useState(false);
@@ -229,19 +230,56 @@ function App() {
                                             <span>{holidayInfo.name}</span>
                                         </div>
                                     )}
+                                    {holidayInfo &&
+                                        holidayInfo.type ===
+                                            "NATIONAL_HOLIDAY" && (
+                                            <div className="mt-3 rounded-lg text-sm text-navy-900 flex items-center gap-2">
+                                                <InlineIcon
+                                                    icon="mingcute:warning-fill"
+                                                    style={{
+                                                        color: "#CBB6E5",
+                                                        fontSize: 16,
+                                                    }}
+                                                />
+                                                <span>
+                                                    Training does not take place
+                                                    on national day
+                                                </span>
+                                            </div>
+                                        )}
+                                    {formData.date.getDay() === 0 && (
+                                        <div className="mt-3 rounded-lg text-sm text-navy-900 flex items-center gap-2">
+                                            <InlineIcon
+                                                icon="mingcute:warning-fill"
+                                                style={{
+                                                    color: "#CBB6E5",
+                                                    fontSize: 16,
+                                                }}
+                                            />
+                                            <span>
+                                                Training does not take place on
+                                                sundays
+                                            </span>
+                                        </div>
+                                    )}
                                 </div>
 
                                 <div className="md:w-2.5/4/6">
-                                    {!holidayInfo && (
-                                        <TimeSlots
-                                            value={formData.time}
-                                            onChange={(time) =>
-                                                handleInputChange("time", time)
-                                            }
-                                            slots={TIME_SLOTS}
-                                            error={errors.time}
-                                        />
-                                    )}
+                                    {formData.date.getDay() !== 0 &&
+                                        holidayInfo?.type !==
+                                            "NATIONAL_HOLIDAY" && (
+                                            <TimeSlots
+                                                value={formData.time}
+                                                onChange={(time) =>
+                                                    handleInputChange(
+                                                        "time",
+                                                        time
+                                                    )
+                                                }
+                                                slots={TIME_SLOTS}
+                                                error={errors.time}
+                                            />
+                                        )}
                                 </div>
                             </div>
                         </div>
@@ -254,7 +292,8 @@ function App() {
                                 isSubmitting ||
                                 isFormEmptyCheck() ||
                                 Object.keys(errors).length > 0 ||
-                                !!holidayInfo
+                                holidayInfo?.type === "NATIONAL_HOLIDAY" ||
+                                formData.date.getDay() === 0
                             }
                             className="w-full bg-purple-600 text-white py-3 px-4 rounded-lg font-medium
                 hover:bg-purple-700 focus:outline-none focus:ring-2 focus:ring-purple-600 focus:ring-offset-2
