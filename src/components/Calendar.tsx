@@ -16,7 +16,6 @@ export const Calendar: React.FC<CalendarProps> = ({
     error,
     holidays,
     onHolidayInfo,
-    isDayDisabled,
 }) => {
     const [currentYear, setCurrentYear] = useState(value.getFullYear());
     const [currentMonth, setCurrentMonth] = useState(value.getMonth());

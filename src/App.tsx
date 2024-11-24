@@ -23,7 +23,6 @@ function App() {
 
     const [errors, setErrors] = useState<FormErrors>({});
     const [holidayInfo, setHolidayInfo] = useState<Holiday | null>(null);
-    console.log('holidayInfo";;', holidayInfo);
     const [isSubmitting, setIsSubmitting] = useState(false);
     const [submitError, setSubmitError] = useState<string | null>(null);
     const [submitSuccess, setSubmitSuccess] = useState(false);
