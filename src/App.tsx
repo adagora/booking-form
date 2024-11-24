@@ -5,10 +5,10 @@ import { Calendar } from "./components/Calendar";
 import { TimeSlots } from "./components/TimeSlots";
 import { AgeSlider } from "./components/AgeSlider";
 import type { FormData, FormErrors, Holiday } from "./types/holidays";
-import { Info } from "lucide-react";
 import useQuery from "./hooks/useQuery";
 import { API_KEY, TIME_SLOTS } from "./helpers/const";
 import { isFormEmpty, validateForm } from "./helpers/validate";
+import { InlineIcon } from "@iconify/react/dist/iconify.js";
 
 function App() {
     const [formData, setFormData] = useState<FormData>({
@@ -26,6 +26,8 @@ function App() {
     const [isSubmitting, setIsSubmitting] = useState(false);
     const [submitError, setSubmitError] = useState<string | null>(null);
     const [submitSuccess, setSubmitSuccess] = useState(false);
+
+    console.log({ holidayInfo });
 
     const year = formData.date.getFullYear();
 
@@ -207,7 +209,7 @@ function App() {
                                         value={formData.date}
                                         onChange={(date) => {
                                             handleInputChange("date", date);
-                                            setHolidayInfo(null);
+                                            // setHolidayInfo(null);
                                         }}
                                         error={
                                             errors.date ||
@@ -219,10 +221,13 @@ function App() {
                                         onHolidayInfo={setHolidayInfo}
                                     />
                                     {holidayInfo && (
-                                        <div className="mt-3 p-3 rounded-lg text-sm text-navy-900 flex items-start gap-2">
-                                            <Info
-                                                size={16}
-                                                className="text-purple-600 mt-0.5 flex-shrink-0"
+                                        <div className="mt-3 rounded-lg text-sm text-navy-900 flex items-center gap-2">
+                                            <InlineIcon
+                                                icon="mingcute:warning-fill"
+                                                style={{
+                                                    color: "#CBB6E5",
+                                                    fontSize: 16,
+                                                }}
                                             />
                                             <span>{holidayInfo.name}</span>
                                         </div>
@@ -269,7 +274,6 @@ function App() {
 
                         {submitSuccess && (
                             <p className="mt-1 text-sm text-green-600 flex items-center gap-1">
-                                <Info size={16} />
                                 <span>Submitted successfully!</span>
                             </p>
                         )}

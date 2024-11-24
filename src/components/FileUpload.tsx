@@ -1,5 +1,4 @@
 import React, { useCallback } from "react";
-import { Info } from "lucide-react";
 import { InlineIcon } from "@iconify/react";
 
 interface FileUploadProps {
@@ -100,7 +99,10 @@ export const FileUpload: React.FC<FileUploadProps> = ({
             </div>
             {error && (
                 <p className="mt-1 text-sm text-navy-900 flex items-center gap-1">
-                    <Info size={16} className="text-error" />
+                    <InlineIcon
+                        icon="mingcute:warning-fill"
+                        style={{ color: "#CBB6E5", fontSize: 16 }}
+                    />
                     <span>{error}</span>
                 </p>
             )}

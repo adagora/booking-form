@@ -1,5 +1,5 @@
+import { InlineIcon } from "@iconify/react/dist/iconify.js";
 import React from "react";
-import { Info } from "lucide-react";
 
 interface AgeSliderProps {
     value: number;
@@ -82,7 +82,10 @@ export const AgeSlider: React.FC<AgeSliderProps> = ({
             </div>
             {error && (
                 <p className="mt-1 text-sm text-navy-900 flex items-center gap-1">
-                    <Info size={16} className="text-error" />
+                    <InlineIcon
+                        icon="mingcute:warning-fill"
+                        style={{ color: "#CBB6E5", fontSize: 16 }}
+                    />
                     <span>{error}</span>
                 </p>
             )}

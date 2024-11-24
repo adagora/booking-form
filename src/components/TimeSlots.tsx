@@ -1,5 +1,5 @@
+import { InlineIcon } from "@iconify/react/dist/iconify.js";
 import React from "react";
-import { Info } from "lucide-react";
 
 interface TimeSlotsProps {
     value?: string;
@@ -38,7 +38,10 @@ export const TimeSlots: React.FC<TimeSlotsProps> = ({
             </div>
             {error && (
                 <p className="mt-1 text-sm text-navy-900 flex items-center gap-1">
-                    <Info size={16} className="text-error" />
+                    <InlineIcon
+                        icon="mingcute:warning-fill"
+                        style={{ color: "#CBB6E5", fontSize: 18 }}
+                    />
                     <span>{error}</span>
                 </p>
             )}

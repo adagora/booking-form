@@ -1,5 +1,4 @@
 import React, { useState, useMemo } from "react";
-import { ChevronLeft, ChevronRight, Info } from "lucide-react";
 import { Holiday } from "../types/holidays";
 import { InlineIcon } from "@iconify/react/dist/iconify.js";
 
@@ -8,7 +7,7 @@ interface CalendarProps {
     onChange: (date: Date) => void;
     error?: string;
     holidays: Holiday[] | null;
-    onHolidayInfo?: (holiday: Holiday) => void;
+    onHolidayInfo?: (holiday: Holiday | null) => void;
 }
 
 export const Calendar: React.FC<CalendarProps> = ({
@@ -55,7 +54,10 @@ export const Calendar: React.FC<CalendarProps> = ({
         date.getMonth() === currentMonth && date.getFullYear() === currentYear;
 
     const formatDate = (date: Date) => {
-        return date.toISOString().split("T")[0];
+        const year = date.getFullYear();
+        const month = String(date.getMonth() + 1).padStart(2, "0");
+        const day = String(date.getDate()).padStart(2, "0");
+        return `${year}-${month}-${day}`;
     };
 
     const isDisabled = (date: Date) => {
@@ -78,8 +80,8 @@ export const Calendar: React.FC<CalendarProps> = ({
         if (!isDisabled(date)) {
             onChange(date);
             const holiday = getHolidayInfo(date);
-            if (holiday) {
-                onHolidayInfo?.(holiday);
+            if (onHolidayInfo) {
+                onHolidayInfo(holiday || null);
             }
         }
     };
@@ -98,7 +100,7 @@ export const Calendar: React.FC<CalendarProps> = ({
     };
 
     return (
-        <div className="mb-4">
+        <div>
             <label className="block text-navy-900 text-sm mb-1">Date</label>
             <div
                 className={`border border-borderDefault bg-white rounded-lg p-4 ${
@@ -171,8 +173,11 @@ export const Calendar: React.FC<CalendarProps> = ({
                 </div>
             </div>
             {error && (
-                <p className="mt-1 text-sm text-navy-900 flex items-center gap-1">
-                    <Info size={16} className="text-error" />
+                <p className="mt-1 text-sm text-navy-900 flex items-center justify-center gap-1">
+                    <InlineIcon
+                        icon="mingcute:warning-fill"
+                        style={{ color: "#CBB6E5", fontSize: 18 }}
+                    />
                     <span>{error}</span>
                 </p>
             )}
